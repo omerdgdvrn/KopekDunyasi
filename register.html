@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <title>Köpek Dünyası</title>
+
+    <!-- STYLESHEET -->
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800" rel="stylesheet">
+
+    <!-- icon -->
+    <link rel="stylesheet" href="assets/fonts/icons/main/mainfont/style.css">
+    <link rel="stylesheet" href="assets/fonts/icons/font-awesome/css/font-awesome.min.css">
+
+    <!-- Vendor -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/v3/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/bootstrap/v4/bootstrap-grid.css">
+    <!-- Custom -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<div class="signup">
+    <!-- HEADER -->
+    <header class="signup__header">
+        <div class="container">
+            <div class="signup__header-content">
+                <a href="login.html" class="btn">Giriş Yap</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="signup__main">
+        <img class="signup__bg" src="assets/images/signup-bg.png" alt="bg">
+
+        <div class="container">
+            <div class="signup__container">
+                <div class="signup__logo">
+                    <a href="#"><img src="assets/fonts/icons/main/Logo_Forum.svg" alt="logo">Köpek Dünyası</a>
+                </div>
+
+                <div class="signup__head">
+                    <h3>Kayıt Ol</h3>
+                </div>
+                <div class="signup__form">
+                    <div class="row" data-visible="desktop">
+                        <div class="col-md-6">
+                            <div class="signup__section">
+                                <label class="signup__label" for="name">Adınız</label>
+                                <input type="text" class="form-control" id="name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="signup__section">
+                                <label class="signup__label" for="surname">Soyadınız</label>
+                                <input type="text" class="form-control" id="surname">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="signup__section">
+                        <label class="signup__label" for="username">Kullanıcı Adı</label>
+                        <input type="text" class="form-control" id="username">
+                    </div>
+                    <div class="signup__section">
+                        <label class="signup__label" for="password">Şifre</label>
+                        <div class="message-input">
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                    </div>
+                    <input type="button" class="signup__btn-create btn btn--type-02" id="btnRegister" value="Kayıt Ol" />
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="signup__footer">
+        <div class="container">
+            <div class="signup__footer-content">
+                <ul class="signup__footer-menu">
+                    <li><a href="#">Teams</a></li>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Send Feedback</a></li>
+                </ul>
+                <ul class="signup__footer-social">
+                    <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-cloud" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- JAVA SCRIPT -->
+<script src="assets/vendor/jquery/jquery.min.js"></script>
+<script src="assets/vendor/velocity/velocity.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('#btnRegister').on('click', function () {
+            let data = {
+                name: $('#name').val(),
+                surname: $('#surname').val(),
+                password: $('#password').val(),
+                username: $('#username').val()
+            }
+            console.log(data);
+            $.ajax({
+                url: 'http://localhost:8001/home/register',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                    if (response === 200) {
+                        alert('Başarıyla kayıt oldunuz.');
+                        window.location.href = 'login.html';
+                    } else {
+                        alert('Kayıt olma işlemi sırasında bir hata oluştu.');
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

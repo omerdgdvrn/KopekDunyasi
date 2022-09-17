@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <title>Köpek Dünyası</title>
+
+    <!-- STYLESHEET -->
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800" rel="stylesheet">
+
+    <!-- icon -->
+    <link rel="stylesheet" href="assets/fonts/icons/main/mainfont/style.css">
+    <link rel="stylesheet" href="assets/fonts/icons/font-awesome/css/font-awesome.min.css">
+
+    <!-- Vendor -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/v3/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/bootstrap/v4/bootstrap-grid.css">
+    <!-- Custom -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<!-- HEADER -->
+<header>
+    <div class="header js-header js-dropdown">
+        <div class="container">
+            <div class="header__logo">
+                <a href="index.html">
+                    <h1>
+                        <img src="assets/fonts/icons/main/Logo_Forum.svg" alt="logo">
+                    </h1>
+                    <div class="header__logo-btn">
+                        Köpek Dünyası
+                    </div>
+                </a>
+            </div>
+            <div class="header__search">
+            </div>
+            <div class="header__menu">
+
+            </div>
+            <div class="header__notification">
+
+            </div>
+            <div class="header__user">
+                <div class="header__user-btn" data-dropdown-btn="user">
+                    <span id="loginUser"></span>
+                </div>
+                <a href="login.html" class="btn" id="btnGoLogin" style="display: none;">Giriş Yap</a>
+                <input type="button" class="btn" id="btnGoLogout" style="display: none;" value="Çıkış Yap" />
+            </div>
+        </div>
+        <div class="header__offset-btn">
+            <a href="send-question.html"><img src="assets/fonts/icons/main/New_Topic.svg" alt="Yeni Soru Gönder"></a>
+        </div>
+    </div>
+</header>
+
+<!-- MAIN -->
+<main>
+    <div class="container">
+        <div class="create">
+            <div class="create__head">
+                <div class="create__title"><img src="assets/fonts/icons/main/New_Topic.svg" alt="New topic">Yeni Soru</div>
+            </div>
+            <div class="create__section">
+                <label class="create__label" for="title">Başlık</label>
+                <input type="text" class="form-control" id="title">
+            </div>
+            <div class="create__section create__textarea">
+                <label class="create__label" for="description">Açıklama</label>
+                <textarea class="form-control" id="description"></textarea>
+            </div>
+            <div class="create__footer">
+                <a href="index.html" class="create__btn-cansel btn">İptal</a>
+                <input type="button" class="create__btn-create btn btn--type-02" id="btnGonder" value="Gönder" />
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer js-dropdown">
+        <div class="container">
+            <div class="footer__logo">
+                <div>
+                    <img src="assets/fonts/icons/main/Logo_Forum.svg" alt="logo">Köpek Dünyası
+                </div>
+            </div>
+            <div class="footer__nav">
+                <div class="footer__tline">
+                </div>
+                <div class="footer__bline">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JAVA SCRIPT -->
+<script src="assets/vendor/jquery/jquery.min.js"></script>
+<script src="assets/vendor/velocity/velocity.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script type="text/javascript">
+    let userInfo = '';
+    $(document).ready(function () {
+        if (localStorage.getItem('user')) {
+            this.userInfo = JSON.parse(localStorage.getItem('user'));
+            $('#loginUser').html(this.userInfo.name +' '+ this.userInfo.surname);
+            $('#btnGoLogout').show();
+        } else {
+            window.location.href = 'index.html';
+        }
+    });
+
+    $('#btnGoLogout').on('click',function(){
+        localStorage.removeItem('user');
+        window.location.href = 'index.html';
+    });
+
+    $('#btnGonder').on('click', function () {
+        this.userInfo = JSON.parse(localStorage.getItem('user'));
+        let data = {
+            title: $('#title').val(),
+            description: $('#description').val(),
+            userId: this.userInfo.id
+        }
+        $.ajax({
+            url: 'http://localhost:8001/post/post',
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                if (response !== 200) {
+                    alert('Bir hata oluştu.')
+                } else {
+                    alert('Başlık başarıyla açıldı.')
+                    window.location.href = 'index.html';
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
